@@ -90,15 +90,33 @@ void load_sudoku_with_candidates(SudokuBoard *p_board, char *textData)
 
 void print_string_candidates(Cell *p_cell, char *textData)
 {
+    if (p_cell == NULL) {
+        return; 
+    }
     int *candidates = get_candidates(p_cell);
+    if (!candidates) {
+        return;
+    }
     int len = p_cell->num_candidates;
-
+    if (len < 0 || len > 9) {
+        len = 0; 
+    }   
     int bin_candidates[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     if (p_cell->fixed)
         bin_candidates[0] = 1;
-
+    if (len > 9) {
+        // Handle invalid candidate length
+        return;
+    }
     for (int i = 0; i < len; i++)
     {
+        if (candidates[i] < 0 || candidates[i] > 9) {
+            // Handle invalid candidate value
+            continue;
+        }
+        if (i >= 9) {
+            break;
+        }
         bin_candidates[candidates[i]] = 1;
     }
     int left_index = toInteger(&(bin_candidates[5]), 5);
