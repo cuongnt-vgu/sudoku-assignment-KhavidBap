@@ -1,5 +1,105 @@
 #include "hidden_singles.h"
 #include <stdlib.h>
+int hidden_singles(SudokuBoard *p_board)
+{
+    
+    int count = 0;
+    int l=0;
+    int i,j,candidate;
+    bool found;
+    for ( i = 0; i < 9; i++) 
+    {
+        for (j = 0; j < 9; j++) 
+        {
+            if (p_board->data[i][j].num_candidates > 1) 
+            {
+                for (int k = 0; k < 9; k++) 
+                {
+                     candidate = p_board->data[i][j].candidates[k];
+                    
+                    found = true;
+                    if (candidate !=0)
+                    {
+                     
+                    found = false;
+                    
+                    for (l = 0; l < 9; l++) 
+                        if ((l != j) &&
+                            (p_board->data[i][l].candidates[k]>0)) 
+                        {
+                            found = true;
+                         
+                            break;
+
+                        }
+                    if (found)
+                    {
+                    found = false;
+                    for (l = 0; l < 9; l++) 
+                        if ((l != i) &&
+                            (p_board->data[l][j].candidates[k]>0)) 
+                        {
+                            found = true;
+                             break;
+                        }
+                    if (found)
+                    {
+                    found = false;                            
+                    int box = (i / 3) * 3 + j / 3;
+                    int box_cell = (i % 3) * 3 + j % 3;
+                    for (l = 0; l < 9; l++) 
+                    {
+                        Cell cell=*p_board->p_boxes[box][l] ;
+                        
+                        if ((l != box_cell) &&
+                            (cell.candidates[k]>0)) 
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    }
+                    }
+                   // int m;                   
+                    if (!found) 
+                    {
+                       
+
+                        p_board->data[i][j].candidates[k] = 1;
+                        p_board->data[i][j].value = k+1;
+                        p_board->data[i][j].num_candidates = 1;
+                    
+                        count++;
+                        break;
+                    }
+                } //for (int k = 0; k < 9; k++) 
+            }
+        }
+        }
+    }
+    for ( i = 0; i < BOARD_SIZE; i++) 
+    {
+        for (j = 0; j < BOARD_SIZE; j++) 
+        {
+            if (p_board->data[i][j].num_candidates==1) 
+            {
+                for (int k = 0; k < BOARD_SIZE; k++) 
+                {
+                    if (k!= p_board->data[i][j].value-1)
+                      p_board->data[i][j].candidates[k]=0;
+                }
+            }
+        }
+    }
+    
+
+    return count;
+}
+    
+
+
+
+/*-----------------
 
 int find_hidden_single_values(Cell **p_cells, int *hidden_single_values) {
     int numHiddenValue = 0;
@@ -54,3 +154,4 @@ int hidden_singles(SudokuBoard *p_board) {
     free(hidden_singles);
     return num_hidden_single;
 }
+*/
