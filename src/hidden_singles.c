@@ -2,7 +2,7 @@
 #include <stdlib.h>
 int hidden_singles(SudokuBoard *p_board)
 {
-    
+ 
     int count = 0;
     int l=0;
     int i,j,candidate;
@@ -94,6 +94,7 @@ int hidden_singles(SudokuBoard *p_board)
     
 
     return count;
+
 }
     
 
