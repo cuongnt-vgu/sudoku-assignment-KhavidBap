@@ -11,7 +11,7 @@ int hidden_triples(SudokuBoard *p_board)
 #include <stdlib.h>
 int hidden_triples(SudokuBoard *p_board)
 {
-    cas_naked_triples cas[100];
+   cas_naked_triples cas[100];
    int n_cas,n;
    n=num_cas3h(p_board, cas , &n_cas);
    for (int i=1; i<=n_cas ; i++)

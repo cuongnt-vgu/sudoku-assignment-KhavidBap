@@ -8,7 +8,7 @@ int hidden_pairs(SudokuBoard *p_board)
     cas_naked_pairs cas[100];
     for (int i=0 ; i<9 ; i++)
         for (int j=0; j<9 ; j++)
-            XuLy_Mot_cell(p_board,i,j,&count,cas);
+    XuLy_Mot_cell(p_board,i,j,&count,cas);
     xuly_hidden_pair(p_board, cas,count);
     for(int i=1; i<=count;i++)
         {
