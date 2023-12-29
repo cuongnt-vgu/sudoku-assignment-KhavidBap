@@ -17,11 +17,11 @@ int hidden_triples(SudokuBoard *p_board)
    for (int i=1; i<=n_cas ; i++)
          printf(" %d  %d  %d  %d  %d  %d  %d  %d  %d \n", cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].row3,cas[i].col3, cas[i].cas1, cas[i].cas2, cas[i].cas3);
     
-    xuly_naked_triplesh(p_board, cas,&n_cas); 
+    xuly_hidden_triples(p_board, cas,&n_cas); 
    
     return n_cas;
 }
-int pair_3cellh(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cas1, int *cas2,int *cas3)
+int pair_Threecell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cas1, int *cas2,int *cas3)
 {
     int count=0; 
     int count1=0;
@@ -198,7 +198,7 @@ int num_cas3h(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas)
         {
             r1 = i/9;  c1 = i%9; r2=j/9;  c2 = j%9; r3=k/9 ; c3 =k%9;
           
-            if (pair_3cellh(p_board,r1,c1,r2,c2,r3,c3,&cas1, &cas2,&cas3 )==3)
+            if (pair_Threecell(p_board,r1,c1,r2,c2,r3,c3,&cas1, &cas2,&cas3 )==3)
                {
                 count++;
                 cas[count].row1 = r1;
@@ -220,7 +220,7 @@ int num_cas3h(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas)
 }
 
 
-void xuly_naked_triplesh(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas)
+void xuly_hidden_triples(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas)
 {
     int r1,c1,r2,c2,r3,c3,cas1,cas2,cas3;
   //  int r1_dau,c1_dau,r2_dau,c2_dau;
