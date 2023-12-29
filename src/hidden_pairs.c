@@ -10,8 +10,12 @@ int hidden_pairs(SudokuBoard *p_board)
         for (int j=0; j<9 ; j++)
             XuLy_Mot_cell(p_board,i,j,&count,cas);
     xuly_hidden_pair(p_board, cas,count);
+    
     for(int i=1; i<=count;i++)
-        printf("cuoi cung  %d  %d  %d  %d  %d  %d\n", cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].cas1, cas[i].cas2);
+        {
+        printf("cuoi cung  %d %d  %d  %d  %d  %d  %d\n", count, cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].cas1, cas[i].cas2);
+        }
+
     return count;
 
 }
@@ -184,7 +188,7 @@ void xuly_hidden_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
 {
     for (int i=1; i<=n_cas;i++)
     {
-        for(int j; j<BOARD_SIZE;j++)
+        for(int j=0; j<BOARD_SIZE;j++)
         {
             if((j!=cas[i].cas1) && (j!=cas[i].cas2))
             {
