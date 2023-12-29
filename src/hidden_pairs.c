@@ -3,31 +3,38 @@
 #include <stdlib.h>
 int hidden_pairs(SudokuBoard *p_board)
 {
- int count = 0;   
- 
+
+    int count = 0;   
+    cas_naked_pairs cas[100];
     for (int i=0 ; i<9 ; i++)
         for (int j=0; j<9 ; j++)
-            XuLy_Mot_cell(p_board,i,j,&count);
-
-    
+            XuLy_Mot_cell(p_board,i,j,&count,cas);
+    xuly_hidden_pair(p_board, cas,count);
+    for(int i=1; i<=count;i++)
+        printf("cuoi cung  %d  %d  %d  %d  %d  %d\n", cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].cas1, cas[i].cas2);
     return count;
 
 }
 
-void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count)
+void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count, cas_naked_pairs cas[])
 {
    // printf(" ----- %d -----%d-----\n ", row, col);
     if (p_board->data[row][col].num_candidates>1)
     {
-        int n=-1,k;
+        int n=-1;
         for (int i=0 ; i<8; i++)
             for (int j=i+1 ; j<9 ; j++)
             if (( p_board->data[row][col].candidates[i]!=0) &&( p_board->data[row][col].candidates[j]!=0) )
                 {
                     n=XuLy_cell_row(p_board,row,col,i,j);
-                    if (n>-1)
+                    if ((n>-1) && (n>col))
                     {
                         *count= *count+1;
+                        cas[*count].row1=row; cas[*count].col1=col;
+                        cas[*count].row2=row; cas[*count].col2=n;
+                        cas[*count].cas1=i; cas[*count].cas2=j;
+
+ /*       
                         p_board->data[row][col].num_candidates=2;
                         p_board->data[row][n].num_candidates=2;
                         for(k=0;k<9;k++)
@@ -36,13 +43,18 @@ void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count)
                                 p_board->data[row][col].candidates[k]=0;
                                 p_board->data[row][n].candidates[k]=0;
                             }
-
+*/
                        // printf(" dong -- %d  %d  %d   %d   %d   \n", row,col,i,j,n);
                     }
-                    n=XuLy_cell_col(p_board,row,col,i,j);
-                    if (n>-1)
+                    if(n==-1)
+                        n=XuLy_cell_col(p_board,row,col,i,j);
+                    if ((n>-1) && (n>row))
                     {
                         *count = *count +1;
+                        cas[*count].row1=row; cas[*count].col1=col;
+                        cas[*count].row2=n; cas[*count].col2=col;
+                        cas[*count].cas1=i; cas[*count].cas2=j;
+/*
                         p_board->data[row][col].num_candidates=2;
                         p_board->data[n][col].num_candidates=2;
                         for(k=0;k<9;k++)
@@ -52,17 +64,20 @@ void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count)
                                 p_board->data[n][col].candidates[k]=0;
 
                             }
-                        
-                       printf(" cot -- %d  %d  %d   %d   %d   \n", row,col,i,j,n);
+ */                       
+  //                     printf(" cot -- %d  %d  %d   %d   %d   \n", row,col,i,j,n);
                        // for(k=0;k<9;k++)
-                         //   printf("  %d ",p_board->data[row][col].candidates[k]);
-                        printf("\n");
+                         //   printf("  %d ",p_board->data[row][col].candidates[k]);  printf("\n");
                     }
-                        
-                    n=XuLy_cell_box(p_board,row,col,i,j);
-                    if (n>-1)
+                    if(n==-1)    
+                        n=XuLy_cell_box(p_board,row,col,i,j);
+                    if ((n>-1)&&(n>(row*9+col)))
                     {
                         *count = *count+1;
+                        cas[*count].row1=row; cas[*count].col1=col;
+                        cas[*count].row2=n/9; cas[*count].col2=n%9;
+                        cas[*count].cas1=i; cas[*count].cas2=j;
+/*                        
                         p_board->data[row][col].num_candidates=2;
                         p_board->data[n/9][n%9].num_candidates=2;
                         for(k=0;k<9;k++)
@@ -71,6 +86,7 @@ void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count)
                                     p_board->data[row][col].candidates[k]=0;
                                     p_board->data[n/9][n%9].candidates[k]=0;
                                 }
+*/
                         //   printf(" box -- %d  %d  %d   %d   %d   \n", row,col,i,j,n);
                     }
                 }
@@ -164,7 +180,29 @@ int  XuLy_cell_box(SudokuBoard *p_board,int row,int col,int i,int j)
 
     return n;
 }
-
+void xuly_hidden_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
+{
+    for (int i=1; i<=n_cas;i++)
+    {
+        for(int j; j<BOARD_SIZE;j++)
+        {
+            if((j!=cas[i].cas1) && (j!=cas[i].cas2))
+            {
+                if(p_board->data[cas[i].row1][cas[i].col1].candidates[j]==1)
+                {
+                    p_board->data[cas[i].row1][cas[i].col1].candidates[j]=0;
+                    p_board->data[cas[i].row1][cas[i].col1].num_candidates--;
+                }
+                if(p_board->data[cas[i].row2][cas[i].col2].candidates[j]==1)
+                {
+                    p_board->data[cas[i].row2][cas[i].col2].candidates[j]=0;
+                    p_board->data[cas[i].row2][cas[i].col2].num_candidates--;
+                }
+            }
+        }
+ 
+    }
+}
 /* 
 #include "hidden_pairs.h"
 
