@@ -1,11 +1,3 @@
-/*
-#include "naked_pairs.h"
-
-int naked_pairs(SudokuBoard *p_board)
-{
-    return 0;
-}
-*/
 #include "naked_pairs.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +7,6 @@ int naked_pairs(SudokuBoard *p_board)
    cas_naked_pairs cas[100];
    int n_cas,n;
    n=num_cas(p_board, cas , &n_cas);
-   for (int i=1; i<=n_cas ; i++)
-         printf(" %d  %d  %d  %d  %d  %d\n", cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].cas1, cas[i].cas2);
     xuly_naked_pair(p_board, cas,n_cas);  
     return n_cas;
 }

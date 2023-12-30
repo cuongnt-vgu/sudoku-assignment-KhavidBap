@@ -56,7 +56,6 @@ struct cas_naked_triples_impl
     
 };
 typedef struct cas_naked_triples_impl cas_naked_triples;
-//-------------------------
 
 
 void init_sudoku(SudokuBoard *p_board);
@@ -75,7 +74,7 @@ int *get_candidates(Cell *cell);
 int check_solved_cells(SudokuBoard *p_board, Cell ***p_solved_cells);
 bool show_possible(SudokuBoard *p_board, Cell **p_solved_cells, int counter);
 void free_sudoku(SudokuBoard *p_board);
-//------------------------------
+
 void sosanhhaio(Cell cell1, Cell cell2, int *So_gtgn, int *Day_gtgn);
 void r_c_box(int row, int col , int *n_box, int *n_cell );
 void  XuLy_Mot_cell(SudokuBoard *p_board,int row, int col, int *count, cas_naked_pairs cas[]);
@@ -98,4 +97,4 @@ int num_cas3h(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas);
 void xuly_hidden_triples(SudokuBoard *p_board, cas_naked_triples cas[],int *n_cas);
 int Threecellnaker(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cas1, int *cas2,int *cas3);
 void xuly_hidden_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas);
-//---------------------------------
+

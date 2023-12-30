@@ -14,9 +14,6 @@ int hidden_triples(SudokuBoard *p_board)
    cas_naked_triples cas[100];
    int n_cas,n;
    n=num_cas3h(p_board, cas , &n_cas);
-   for (int i=1; i<=n_cas ; i++)
-         printf(" %d  %d  %d  %d  %d  %d  %d  %d  %d \n", cas[i].row1, cas[i].col1, cas[i].row2, cas[i].col2, cas[i].row3,cas[i].col3, cas[i].cas1, cas[i].cas2, cas[i].cas3);
-    
     xuly_hidden_triples(p_board, cas,&n_cas); 
    
     return n_cas;
@@ -233,7 +230,6 @@ void xuly_hidden_triples(SudokuBoard *p_board, cas_naked_triples cas[],int *n_ca
         r2=cas[i].row2; c2= cas[i].col2;
         r3=cas[i].row3; c3= cas[i].col3;
         cas1=cas[i].cas1; cas2 = cas[i].cas2;cas3 = cas[i].cas3;
-        printf("=========cac cas  %d  %d %d  \n",cas1, cas2,cas3);
         xuly=false;
         for (j=0;j<BOARD_SIZE;j++) // 
         {
