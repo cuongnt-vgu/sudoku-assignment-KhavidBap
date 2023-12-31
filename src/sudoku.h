@@ -30,20 +30,12 @@ struct pairs_board_impl {
 };
 typedef struct pairs_board_impl pairs_board;
 
-struct cas_naked_triples_impl
-{
-    int row1;
-    int col1;
-    int row2;
-    int col2;
-    int row3;
-    int col3;
-    int cell_array1;
-    int cell_array2;
-    int cell_array3;
+struct triples_board_impl {
+    int row1, col1, row2, col2, row3, col3;
+    int cell_array1, cell_array2, cell_array3;
     
 };
-typedef struct cas_naked_triples_impl cas_naked_triples;
+typedef struct triples_board_impl triples_board;
 
 void init_sudoku(SudokuBoard *p_board);
 void load_sudoku(SudokuBoard *p_board, char *input_text);
@@ -69,11 +61,10 @@ int  one_cell_row(SudokuBoard *p_board, int row, int col, int i, int j);
 int  one_cell_col(SudokuBoard *p_board, int row, int col, int i, int j);
 int  one_cell_box(SudokuBoard *p_board, int row, int col, int i, int j);
 
-void XuLy_Mot_cell3(SudokuBoard *p_board,int row, int col, int *count);
-void xuly_hidden_triples(SudokuBoard *p_board, cas_naked_triples cell_array[],int *num_cell_array);
-int  XuLy_cell_row3(SudokuBoard *p_board,int row,int col,int i,int j,int k,int nx[]);
-int  XuLy_cell_col3(SudokuBoard *p_board,int row,int col,int i,int j,int k,int nx[]);
-int  XuLy_cell_box3(SudokuBoard *p_board,int row,int col,int i,int j,int k,int nx[][5]);
+// hidden triples
+int  num_three_cells(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
+void hidden_triples_processing(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
+int  pair_three_cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
 
 // naked pairs
 int  num_pairs_cell(SudokuBoard *p_board, pairs_board cell_array[],int *num_cell_array);
@@ -81,9 +72,7 @@ void naked_pair_processing(SudokuBoard *p_board, pairs_board cell_array[],int nu
 int  pair_two_cells(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int *cell_array1, int *cell_array2);
 
 
-int  pair_3cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
-int  num_cas3(SudokuBoard *p_board, cas_naked_triples cell_array[],int *num_cell_array);
-void xuly_naked_triples(SudokuBoard *p_board, cas_naked_triples cell_array[],int num_cell_array);
-int  pair_Threecell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
-int  num_cas3h(SudokuBoard *p_board, cas_naked_triples cell_array[],int *num_cell_array);
+int  num_cas3(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
+void xuly_naked_triples(SudokuBoard *p_board, triples_board cell_array[],int num_cell_array);
+
 int  Threecellnaker(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
