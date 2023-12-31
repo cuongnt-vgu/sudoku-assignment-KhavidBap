@@ -62,17 +62,16 @@ int  one_cell_col(SudokuBoard *p_board, int row, int col, int i, int j);
 int  one_cell_box(SudokuBoard *p_board, int row, int col, int i, int j);
 
 // hidden triples
-int  num_three_cells(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
-void hidden_triples_processing(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
-int  pair_three_cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
+int  num_three_cells(SudokuBoard *p_board, triples_board cell_array[], int *num_cell_array);
+void hidden_triples_processing(SudokuBoard *p_board, triples_board cell_array[], int *num_cell_array);
+int  pair_three_cell(SudokuBoard *p_board, int row1, int col1, int row2, int col2, int row3, int col3, int *cell_array1, int *cell_array2, int *cell_array3);
 
 // naked pairs
-int  num_pairs_cell(SudokuBoard *p_board, pairs_board cell_array[],int *num_cell_array);
-void naked_pair_processing(SudokuBoard *p_board, pairs_board cell_array[],int num_cell_array);
-int  pair_two_cells(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int *cell_array1, int *cell_array2);
+int  num_pairs_cell(SudokuBoard *p_board, pairs_board cell_array[], int *num_cell_array);
+void naked_pair_processing(SudokuBoard *p_board, pairs_board cell_array[], int num_cell_array);
+int  pair_two_cells(SudokuBoard *p_board, int row1, int col1, int row2, int col2, int *cell_array1, int *cell_array2);
 
-
-int  num_cas3(SudokuBoard *p_board, triples_board cell_array[],int *num_cell_array);
-void xuly_naked_triples(SudokuBoard *p_board, triples_board cell_array[],int num_cell_array);
-
-int  Threecellnaker(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int row3,int col3,int *cell_array1, int *cell_array2,int *cell_array3);
+// naked triples
+int  num_triples_cell(SudokuBoard *p_board, triples_board cell_array[], int *num_cell_array);
+void naked_triples_processing(SudokuBoard *p_board, triples_board cell_array[], int num_cell_array);
+int  three_cell_naked(SudokuBoard *p_board, int row1, int col1, int row2, int col2, int row3, int col3, int *cell_array1, int *cell_array2, int *cell_array3);
