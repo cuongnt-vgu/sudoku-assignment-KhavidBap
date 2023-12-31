@@ -2,18 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int naked_pairs(SudokuBoard *p_board)
-{
-   cas_naked_pairs cas[100];
-   int n_cas,n;
-   n=num_cas(p_board, cas , &n_cas);
-    xuly_naked_pair(p_board, cas,n_cas);  
-    return n_cas;
+int naked_pairs(SudokuBoard *p_board) {
+   pairs_board cell_array[100];
+   int num_cell_array,n;
+   n=num_pairs_cell(p_board, cell_array , &num_cell_array);
+    xuly_naked_pair(p_board, cell_array,num_cell_array);  
+    return num_cell_array;
 }
-int pair_2cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int *cas1, int *cas2)
+int pair_2cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int *cell_array1, int *cell_array2)
 {
     int count=0;
-    int cas[2];
+    int cell_array[2];
     
     if((p_board->data[row1][col1].num_candidates==2) && (p_board->data[row2][col2].num_candidates==2) )
     {
@@ -23,20 +22,20 @@ int pair_2cell(SudokuBoard *p_board,int row1, int col1,int row2, int col2,int *c
            for (int i=0;i<9;i++)
                   if ((p_board->data[row1][col1].candidates[i]==1) && (p_board->data[row2][col2].candidates[i]==1))
                   {
-                    cas[count] = i;
+                    cell_array[count] = i;
                     count++;
                   }
         }
     }
-    *cas1 = cas[0];
-    *cas2 = cas[1];
+    *cell_array1 = cell_array[0];
+    *cell_array2 = cell_array[1];
     
     return count;
 }
 
-int num_cas(SudokuBoard *p_board, cas_naked_pairs cas[],int *n_cas)
+int num_pairs_cell(SudokuBoard *p_board, pairs_board cell_array[],int *num_cell_array)
 {
-    int cas1=-1,cas2=-1;
+    int cell_array1=-1,cell_array2=-1;
     int r1,c1,r2,c2;
     int count=0;
       
@@ -45,32 +44,32 @@ int num_cas(SudokuBoard *p_board, cas_naked_pairs cas[],int *n_cas)
         {
             r1 = i/9;  c1 = i%9; r2=j/9;  c2 = j%9;
           
-            if (pair_2cell(p_board,r1,c1,r2,c2,&cas1, &cas2 )==2)
+            if (pair_2cell(p_board,r1,c1,r2,c2,&cell_array1, &cell_array2 )==2)
                {
                 count++;
-                cas[count].row1 = r1;
-                cas[count].col1 = c1;
-                cas[count].row2 = r2;
-                cas[count].col2 = c2;
-                cas[count].cas1 = cas1;
-                cas[count].cas2 = cas2;
+                cell_array[count].row1 = r1;
+                cell_array[count].col1 = c1;
+                cell_array[count].row2 = r2;
+                cell_array[count].col2 = c2;
+                cell_array[count].cell_array1 = cell_array1;
+                cell_array[count].cell_array2 = cell_array2;
                 }
               
         }
-    *n_cas = count;
+    *num_cell_array = count;
     return count;
 }
 
-void xuly_naked_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
+void xuly_naked_pair(SudokuBoard *p_board, pairs_board cell_array[],int num_cell_array)
 {
-    int r1,c1,r2,c2,cas1,cas2;
+    int r1,c1,r2,c2,cell_array1,cell_array2;
     int r1_dau,c1_dau,r2_dau,c2_dau;
     int i,j,k;
-    for (i=1; i<=n_cas;i++)
+    for (i=1; i<=num_cell_array;i++)
     {
-        r1 = cas[i].row1;c1=cas[i].col1;
-        r2=cas[i].row2; c2= cas[i].col2;
-        cas1=cas[i].cas1; cas2 = cas[i].cas2;
+        r1 = cell_array[i].row1;c1=cell_array[i].col1;
+        r2=cell_array[i].row2; c2= cell_array[i].col2;
+        cell_array1=cell_array[i].cell_array1; cell_array2 = cell_array[i].cell_array2;
         r1_dau=(r1/3)*3; c1_dau = (c1/3)*3;
         r2_dau = (r2/3)*3; c2_dau = (c2/3)*3;
         // xu ly dongcot
@@ -81,14 +80,14 @@ void xuly_naked_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
                 
                 if((j!=c1) && (j!=c2))
                 {
-                    if(p_board->data[r1][j].candidates[cas1]==1)
+                    if(p_board->data[r1][j].candidates[cell_array1]==1)
                     {
-                        p_board->data[r1][j].candidates[cas1]=0;
+                        p_board->data[r1][j].candidates[cell_array1]=0;
                         p_board->data[r1][j].num_candidates--;
                     }
-                    if(p_board->data[r1][j].candidates[cas2]==1)
+                    if(p_board->data[r1][j].candidates[cell_array2]==1)
                     {
-                        p_board->data[r1][j].candidates[cas2]=0;
+                        p_board->data[r1][j].candidates[cell_array2]=0;
                         p_board->data[r1][j].num_candidates--;
                     }
                 }
@@ -101,14 +100,14 @@ void xuly_naked_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
             {
                 if((j!=r1) && (j!=r2))
                 {
-                    if(p_board->data[j][c1].candidates[cas1]==1)
+                    if(p_board->data[j][c1].candidates[cell_array1]==1)
                     {
-                        p_board->data[j][c1].candidates[cas1]=0;
+                        p_board->data[j][c1].candidates[cell_array1]=0;
                         p_board->data[j][c1].num_candidates--;
                     }
-                    if(p_board->data[j][c2].candidates[cas2]==1)
+                    if(p_board->data[j][c2].candidates[cell_array2]==1)
                     {
-                        p_board->data[j][c2].candidates[cas2]=0;
+                        p_board->data[j][c2].candidates[cell_array2]=0;
                         p_board->data[j][c2].num_candidates--;
                     }
                 }
@@ -121,14 +120,14 @@ void xuly_naked_pair(SudokuBoard *p_board, cas_naked_pairs cas[],int n_cas)
                 {
                     if(  ((j!=r1) || (k!=c1))   && ((j!=r2) || (k!=c2)))
                     {
-                        if(p_board->data[j][k].candidates[cas1]==1)
+                        if(p_board->data[j][k].candidates[cell_array1]==1)
                         {
-                            p_board->data[j][k].candidates[cas1]=0;
+                            p_board->data[j][k].candidates[cell_array1]=0;
                             p_board->data[j][k].num_candidates--;
                         }
-                        if(p_board->data[j][k].candidates[cas2]==1)
+                        if(p_board->data[j][k].candidates[cell_array2]==1)
                         {
-                            p_board->data[j][k].candidates[cas2]=0;
+                            p_board->data[j][k].candidates[cell_array2]=0;
                             p_board->data[j][k].num_candidates--;
                         }
                     }
